@@ -1,0 +1,227 @@
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.date {
+  font-size: 14px;
+  color: #666;
+}
+
+.main {
+  margin-top: 20px;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.tags {
+  margin-top: 10px;
+}
+
+.tag {
+  display: inline-block;
+  background: #eee;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+.subtitle {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.content {
+  margin: 50px 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.likes {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.commentsSection {
+  margin-top: 30px;
+}
+
+.commentForm {
+  display: flex;
+  gap: 10px;
+}
+
+.commentInput {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.commentButton {
+  padding: 10px 15px;
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.commentsList {
+  margin-top: 15px;
+  list-style: none;
+  padding: 0;
+}
+
+.comment {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.markdown {
+  font-size: 90%;
+}
+
+.headerRight {
+  position: relative;
+}
+
+.dots {
+  margin-right: 20px;
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 130px;
+  background: white;
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  list-style: none;
+  z-index: 10;
+}
+
+.dropdownMenu li {
+  padding: 10px 20px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.dropdownMenu li:hover {
+  background-color: #f5f5f5;
+}
+
+/* ポップアップの背景 */
+.deletePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100; /* 高いz-indexで他の要素の上に表示 */
+}
+
+/* ポップアップのコンテンツエリア */
+.popupContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 400px; /* 幅を設定 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* ボックスシャドウ追加 */
+}
+
+/* ポップアップのヘッダー部分 */
+.popupContent h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* ポップアップの本文部分 */
+.popupContent p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* ボタンエリア */
+.popupButtons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* キャンセルボタンと削除ボタンの共通スタイル */
+.popupButtons button {
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 48%;
+}
+
+/* キャンセルボタンのスタイル */
+.cancelButton {
+  background-color: #ccc; /* グレー */
+}
+
+/* 削除ボタンのスタイル */
+.confirmButton {
+  background-color: #e74c3c; /* 赤色 */
+  color: white;
+}

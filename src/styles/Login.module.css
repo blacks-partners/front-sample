@@ -1,0 +1,87 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginContainer {
+  width: 700px;
+  margin: 0 auto;
+  background-color: var(--white);
+  border-radius: 10px;
+  padding-bottom: 1px;
+}
+
+.loginHeader {
+  border-bottom: 1px solid var(--gray);
+  padding: 10px 30px;
+  font-size: 14px;
+}
+
+.loginContent {
+  padding: 10px 30px;
+  font-size: 15px;
+  margin: 30px;
+}
+
+.parts {
+  margin-bottom: 30px;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.textbox {
+  border: 1px solid var(--gray);
+  border-radius: 5px;
+  width: 100%;
+  padding: 5px 10px;
+  margin-top: 5px;
+}
+
+.authError {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.error {
+  padding-left: 10px;
+  color: red;
+  font-size: 13px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.button {
+  font-size: 14px;
+  background-color: var(--gray);
+  padding: 5px;
+  width: 200px;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: var(--mainColor);
+  color: var(--subground);
+}
+
+.signUp {
+  display: flex;
+  font-size: 13px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+input:focus {
+  outline: 1px solid var(--black);
+}

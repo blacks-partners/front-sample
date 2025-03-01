@@ -1,0 +1,34 @@
+.profileContainer {
+  background-color: var(--white);
+}
+
+.profile {
+  max-width: 900px;
+  display: flex;
+  margin: 0 auto;
+  padding: 50px 0;
+}
+
+.article {
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.avatar {
+  border-radius: 50%;
+  border: 1px solid var(--gray);
+}
+
+.profileRight {
+  padding-left: 40px;
+}
+
+.nickname {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.introduction {
+  font-size: 15px;
+  padding: 10px 0;
+}
