@@ -5,7 +5,15 @@ type article = {
   content: string;
   createdAt: Date;
   updatedAt: Date;
-  // commentList: Comment[];
+  commentList: comment[];
+};
+
+type comment = {
+  commentId: number;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: user;
 };
 
 type user = {
@@ -29,4 +37,4 @@ type toastStore = {
   clearMessage: () => void;
 };
 
-export type { article, user, tokenPayload, toastStore };
+export type { article, user, tokenPayload, toastStore, comment };

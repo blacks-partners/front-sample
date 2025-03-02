@@ -15,14 +15,13 @@ import Loading from "@/components/layouts/Loading/Loading";
 import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import { jwtDecode } from "jwt-decode";
 import { formatDate } from "@/lib/formatDate";
+import Comment from "@/components/layouts/Comment/Comment";
 
 const ArticleDetail = () => {
-  const { articleId } = useParams();
+  const { articleId }: { articleId: string } = useParams();
   const [article, setArticle] = useState<article>();
   const [htmlContent, setHtmlContent] = useState<string | Promise<string>>("");
   const [likes, setLikes] = useState(148);
-  const [comments] = useState([]);
-  const [comment, setComment] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -119,103 +118,106 @@ const ArticleDetail = () => {
   //     }
   //   };
 
-  const handleCommentSubmit = () => {};
-
   if (isLoading) {
     return <Loading />;
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div>
-          <Image
-            src="/icon.png"
-            alt=""
-            width={50}
-            height={50}
-            className={styles.avatar}
-          />
-          <div className={styles.headerInfo}>
-            <Link
-              href={`/user/${article?.user.userId}`}
-              className={styles.link}
-            >
-              <span className={styles.name}>{article?.user.name}</span>
-            </Link>
-            <p className={styles.date}>{formatDate(article?.createdAt)}</p>
-          </div>
-        </div>
-        {userId === article?.user.userId && (
+      <div className={styles.contentContainer}>
+        <div className={styles.header}>
           <div className={styles.headerRight}>
-            <button
-              className={styles.dots}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsMenuOpen((prev) => !prev);
-              }}
-              ref={iconRef}
-            >
-              <IconContext.Provider value={{ color: "#888", size: "30px" }}>
-                <HiDotsHorizontal />
-              </IconContext.Provider>
-            </button>
-            {isMenuOpen && (
-              <ul ref={menuRef} className={styles.dropdownMenu}>
-                <li
-                  onClick={() => {
-                    location.href = `/article/${articleId}/edit`;
-                  }}
-                >
-                  編集
-                </li>
-                <li onClick={handleDeleteClick}>削除</li>
-              </ul>
-            )}
+            <Image
+              src="/icon.png"
+              alt=""
+              width={50}
+              height={50}
+              className={styles.avatar}
+            />
+            <div className={styles.headerInfo}>
+              <Link
+                href={`/user/${article?.user.userId}`}
+                className={styles.link}
+              >
+                <span className={styles.name}>{article?.user.name}</span>
+              </Link>
+              <p className={styles.date}>{formatDate(article?.createdAt)}</p>
+            </div>
           </div>
-        )}
-      </div>
-      <div className={styles.main}>
-        <h1 className={styles.title}>{article?.title}</h1>
-        {/* <div className={styles.tags}>
+          {userId === article?.user.userId && (
+            <div className={styles.headerRight}>
+              <button
+                className={styles.dots}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsMenuOpen((prev) => !prev);
+                }}
+                ref={iconRef}
+              >
+                <IconContext.Provider value={{ color: "#888", size: "30px" }}>
+                  <HiDotsHorizontal />
+                </IconContext.Provider>
+              </button>
+              {isMenuOpen && (
+                <ul ref={menuRef} className={styles.dropdownMenu}>
+                  <li
+                    onClick={() => {
+                      location.href = `/article/${articleId}/edit`;
+                    }}
+                  >
+                    編集
+                  </li>
+                  <li onClick={handleDeleteClick}>削除</li>
+                </ul>
+              )}
+            </div>
+          )}
+        </div>
+        <div className={styles.main}>
+          <h1 className={styles.title}>{article?.title}</h1>
+          {/* <div className={styles.tags}>
           <span className={styles.tag}>Python</span>
           <span className={styles.tag}>HTML</span>
           <span className={styles.tag}>Django</span>
           <span className={styles.tag}>#高校生</span>
         </div> */}
-        <div className={styles.content}>
-          <div
-            className={`markdown-body ${styles.markdown}`}
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          ></div>
+          <div className={styles.content}>
+            <div
+              className={`markdown-body ${styles.markdown}`}
+              dangerouslySetInnerHTML={{ __html: htmlContent }}
+            ></div>
+          </div>
+        </div>
+        <div className={styles.footer}>
+          <button className={styles.likes} onClick={handleLike}>
+            ❤️ {likes}
+          </button>
         </div>
       </div>
-      <div className={styles.footer}>
-        <button className={styles.likes} onClick={handleLike}>
-          ❤️ {likes}
-        </button>
-      </div>
-      <div className={styles.commentsSection}>
-        <h2 className={styles.subtitle}>コメント</h2>
-        <form onSubmit={handleCommentSubmit} className={styles.commentForm}>
-          <input
-            type="text"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="コメントを入力..."
-            className={styles.commentInput}
-          />
-          <button type="submit" className={styles.commentButton}>
-            投稿
-          </button>
-        </form>
-        <ul className={styles.commentsList}>
-          {comments.map((c, index) => (
-            <li key={index} className={styles.comment}>
-              {c}
-            </li>
-          ))}
-        </ul>
+      <div className={styles.commentContainer}>
+        <Comment comments={article?.commentList || []} articleId={articleId} />
+        {/* <div className={styles.commentsSection}>
+          <h2 className={styles.subtitle}>コメント</h2>
+          <form onSubmit={handleCommentSubmit} className={styles.commentForm}>
+            <input
+              type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="コメントを入力..."
+              className={styles.commentInput}
+            />
+            <button type="submit" className={styles.commentButton}>
+              投稿
+            </button>
+          </form>
+          <ul className={styles.commentsList}>
+            {comments.map((c, index) => (
+              <li key={index} className={styles.comment}>
+                {c}
+              </li>
+            ))}
+          </ul>
+        </div> */}
       </div>
 
       {/* 削除確認ポップアップ */}
