@@ -42,7 +42,10 @@
 }
 
 .title {
-  padding-left: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 30px;
   font-size: 18px;
   font-weight: bold;
 }

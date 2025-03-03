@@ -55,8 +55,11 @@ const EditArticle = () => {
   const onClick = async () => {
     if (title === "" || title.length <= 0) {
       toast.error("タイトルを入力してください");
+    } else if (title.length > 50) {
+      toast.error("タイトルは50字以内で入力してください");
     } else if (content === "" || content.length <= 0) {
       toast.error("本文を入力してください");
+    } else if (content.length > 10000) {
     } else {
       const res = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_URL}/articles/${articleId}`,

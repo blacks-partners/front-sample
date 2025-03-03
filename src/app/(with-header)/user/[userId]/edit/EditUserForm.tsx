@@ -17,6 +17,10 @@ export const EditUserForm = ({ user }: { user: user }) => {
   const handleSave = async () => {
     if (name === "" || name.length <= 0) {
       toast.error("名前を入力してください");
+    } else if (name.length > 50) {
+      toast.error("名前は50文字以内で入力してください");
+    } else if (introduction.length > 150) {
+      toast.error("自己紹介は150文字以内で入力してください");
     } else {
       const res = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_URL}/users/${user.userId}`,

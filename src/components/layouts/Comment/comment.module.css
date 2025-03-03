@@ -68,6 +68,10 @@
   margin-right: 12px;
 }
 
+.userName:hover {
+  text-decoration: underline;
+}
+
 .commentDate {
   font-size: 12px;
   color: #666;

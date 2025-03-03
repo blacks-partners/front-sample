@@ -21,10 +21,17 @@ export default function Register() {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let error = false;
+    setNicknameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+    setAuthError("");
 
     if (nickname === "") {
       setNicknameError("値を入力してください");
       error = true;
+    } else if (nickname.length > 50) {
+      setNicknameError("50文字以内で入力してください");
     }
 
     if (email === "") {
@@ -34,6 +41,15 @@ export default function Register() {
 
     if (password === "") {
       setPasswordError("値を入力してください");
+      error = true;
+    } else if (
+      !password.match(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,16}$/
+      )
+    ) {
+      setPasswordError(
+        "8~16文字（英大文字、小文字、数字、記号をすべて含む）で入力してください"
+      );
       error = true;
     }
 

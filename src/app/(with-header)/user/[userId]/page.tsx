@@ -42,7 +42,9 @@ const Mypage = async ({ params }: { params: { userId: string } }) => {
             </div>
             <div>
               <pre className={styles.introduction}>
-                {userInfo?.introduction}
+                {userInfo?.introduction
+                  ? userInfo.introduction
+                  : "自己紹介未入力"}
               </pre>
             </div>
           </div>

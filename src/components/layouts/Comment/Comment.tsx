@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import { IconContext } from "react-icons";
 import { HiDotsHorizontal } from "react-icons/hi";
+import Link from "next/link";
 
 const Comment = ({
   comments,
@@ -65,6 +66,8 @@ const Comment = ({
     } else {
       if (comment === "" || comment.length <= 0) {
         toast.error("コメントを入力してください");
+      } else if (comment.length > 500) {
+        toast.error("コメントは500字以内で入力してください");
       } else {
         const res = await fetchWithAuth(
           `${process.env.NEXT_PUBLIC_URL}/comments`,
@@ -156,7 +159,11 @@ const Comment = ({
                 <div className={styles.commentHeader}>
                   <div className={styles.userInfo}>
                     <span className={styles.userIcon}>👤</span>
-                    <span className={styles.userName}>{comment.user.name}</span>
+                    <Link href={`/user/${comment.user.userId}`}>
+                      <span className={styles.userName}>
+                        {comment.user.name}
+                      </span>
+                    </Link>
                     <span className={styles.commentDate}>
                       {formatDate(comment.createdAt)}
                     </span>

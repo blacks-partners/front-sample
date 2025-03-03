@@ -14,13 +14,19 @@
   margin: 20px auto;
 }
 
+.profileLeft {
+  width: 15%;
+}
+
 .avatar {
   border-radius: 50%;
   border: 1px solid var(--gray);
+  width: 100px;
+  height: 100px;
 }
 
 .profileRight {
-  padding-left: 40px;
+  width: 85%;
 }
 
 .nickname {
@@ -29,6 +35,14 @@
 }
 
 .introduction {
+  margin-right: 20px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4em;
   font-size: 15px;
   padding: 10px 0;
+  display: block;
+  max-height: calc(1.5em * 7);
+  overflow: hidden;
 }

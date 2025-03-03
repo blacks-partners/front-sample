@@ -37,8 +37,12 @@ const NewArticle = () => {
   const onClick = () => {
     if (title === "" || title.length <= 0) {
       toast.error("タイトルを入力してください");
+    } else if (title.length > 50) {
+      toast.error("タイトルは50字以内で入力してください");
     } else if (content === "" || content.length <= 0) {
       toast.error("本文を入力してください");
+    } else if (content.length > 10000) {
+      toast.error("本文は10000文字以内で入力してください");
     } else {
       const fetch = async () => {
         const res = await fetchWithAuth(
