@@ -88,7 +88,7 @@ export default function Register() {
 
     if (res.status === 200) {
       const token = res.headers.get("X-AUTH-TOKEN")?.replace("Bearer ", "");
-      document.cookie = `token=${token}; path=/; max-age=3600; secure; samesite=strict`;
+      document.cookie = `token=${token}; path=/; max-age=36000; samesite=strict`;
       const toast = { key: "success", message: "ユーザー登録が完了しました" };
       Cookies.set("toast", JSON.stringify(toast));
       location.href = "/";
