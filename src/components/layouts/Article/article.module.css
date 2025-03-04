@@ -20,6 +20,10 @@
 
 .avatar {
   border-radius: 50%;
+  border: 1px solid var(--gray);
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
 }
 
 .headerInfo {

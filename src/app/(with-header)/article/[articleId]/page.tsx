@@ -21,7 +21,7 @@ const ArticleDetail = () => {
   const { articleId }: { articleId: string } = useParams();
   const [article, setArticle] = useState<article>();
   const [htmlContent, setHtmlContent] = useState<string | Promise<string>>("");
-  const [likes, setLikes] = useState(148);
+  // const [likes, setLikes] = useState(148);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,9 +75,9 @@ const ArticleDetail = () => {
     };
   }, []);
 
-  const handleLike = () => {
-    setLikes(likes + 1);
-  };
+  // const handleLike = () => {
+  //   setLikes(likes + 1);
+  // };
 
   // 削除ポップアップ表示
   const handleDeleteClick = () => {
@@ -128,7 +128,7 @@ const ArticleDetail = () => {
         <div className={styles.header}>
           <div className={styles.headerRight}>
             <Image
-              src="/icon.png"
+              src={article?.user.imgUrl || "/icon.png"}
               alt=""
               width={50}
               height={50}
@@ -188,11 +188,11 @@ const ArticleDetail = () => {
             ></div>
           </div>
         </div>
-        <div className={styles.footer}>
+        {/* <div className={styles.footer}>
           <button className={styles.likes} onClick={handleLike}>
             ❤️ {likes}
           </button>
-        </div>
+        </div> */}
       </div>
       <div className={styles.commentContainer}>
         <Comment comments={article?.commentList || []} articleId={articleId} />

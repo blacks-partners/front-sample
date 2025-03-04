@@ -23,6 +23,7 @@
   border: 1px solid var(--gray);
   width: 100px;
   height: 100px;
+  object-fit: cover;
 }
 
 .profileRight {

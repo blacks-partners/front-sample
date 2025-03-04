@@ -2,6 +2,9 @@ import "../globals.css";
 import "github-markdown-css/github-markdown.css";
 import Header from "@/components/layouts/Header/Header";
 import { cookies } from "next/headers";
+import { jwtDecode } from "jwt-decode";
+import { tokenPayload } from "@/types/types";
+import { getUserInfo } from "@/lib/getUserInfo";
 
 export default async function RootLayout({
   children,
@@ -11,9 +14,16 @@ export default async function RootLayout({
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token")?.value || null;
 
+  let user = null;
+
+  if (token) {
+    const decodeToken: tokenPayload = jwtDecode(token);
+    user = await getUserInfo(decodeToken.userId);
+  }
+
   return (
     <>
-      <Header token={token} />
+      <Header token={token} user={user} />
       {children}
     </>
   );

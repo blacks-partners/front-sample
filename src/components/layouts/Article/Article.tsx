@@ -24,7 +24,7 @@ const Article = ({ article }: Props) => {
       <button className={styles.articleContainer} onClick={handleClick}>
         <div className={styles.header}>
           <Image
-            src="/icon.png"
+            src={user.imgUrl || "/icon.png"}
             alt=""
             width={40}
             height={40}

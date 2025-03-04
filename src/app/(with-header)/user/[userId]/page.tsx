@@ -29,7 +29,7 @@ const Mypage = async ({ params }: { params: { userId: string } }) => {
         <div className={styles.profile}>
           <div className={styles.profileLeft}>
             <Image
-              src="/icon.png"
+              src={userInfo?.imgUrl || "/icon.png"}
               alt=""
               width={100}
               height={100}

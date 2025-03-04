@@ -22,6 +22,7 @@ type user = {
   email: string;
   password: string;
   introduction: string;
+  imgUrl: string;
   createdAt: Date;
   updatedAt: Date;
 };

@@ -38,6 +38,7 @@
   border: 1px solid var(--gray);
   border-radius: 50%;
   cursor: pointer;
+  object-fit: cover;
 }
 
 /* ドロップダウンメニューのスタイル */

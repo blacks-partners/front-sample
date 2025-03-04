@@ -10,6 +10,7 @@ import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import { IconContext } from "react-icons";
 import { HiDotsHorizontal } from "react-icons/hi";
 import Link from "next/link";
+import Image from "next/image";
 
 const Comment = ({
   comments,
@@ -158,7 +159,14 @@ const Comment = ({
               <li className={styles.commentItem}>
                 <div className={styles.commentHeader}>
                   <div className={styles.userInfo}>
-                    <span className={styles.userIcon}>👤</span>
+                    <Image
+                      src={comment.user.imgUrl || "/icon.png"}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className={styles.userIcon}
+                    />
+                    {/* <span className={styles.userIcon}>👤</span> */}
                     <Link href={`/user/${comment.user.userId}`}>
                       <span className={styles.userName}>
                         {comment.user.name}

@@ -7,26 +7,18 @@ import styles from "@/components/layouts/Header/header.module.css";
 import Button from "@/components/elements/Button/Button";
 import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
-import { tokenPayload } from "@/types/types";
+import { user } from "@/types/types";
 
 interface Props {
   token: string | null;
+  user: user | null;
 }
 
-const Header = ({ token }: Props) => {
+const Header = ({ user }: Props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLUListElement | null>(null);
   const iconRef = useRef<HTMLLIElement | null>(null);
   const pathname = usePathname();
-  const [userId, setUserId] = useState<number>();
-
-  useEffect(() => {
-    if (token) {
-      const decodeToken: tokenPayload = jwtDecode(token);
-      setUserId(decodeToken.userId);
-    }
-  }, [token]);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -68,27 +60,36 @@ const Header = ({ token }: Props) => {
         </div>
 
         <ul className={styles.headerRight}>
-          {token ? (
+          {user ? (
             <>
               {/* アイコンをクリックでメニュー開閉 */}
               <li
                 ref={iconRef}
-                className={styles.userIcon}
                 onClick={(e) => {
                   e.stopPropagation(); // クリックイベントの伝播を防ぐ
                   setIsMenuOpen((prev) => !prev);
                 }}
               >
-                <Image src="/icon.png" alt="User Icon" width={40} height={40} />
+                <Image
+                  src={user.imgUrl || "/icon.png"}
+                  alt="User Icon"
+                  width={40}
+                  height={40}
+                  className={styles.userIcon}
+                />
               </li>
 
               {/* ドロップダウンメニュー */}
               {isMenuOpen && (
                 <ul ref={menuRef} className={styles.dropdownMenu}>
-                  <li onClick={() => (location.href = `/user/${userId}`)}>
+                  <li onClick={() => (location.href = `/user/${user.userId}`)}>
                     マイページ
                   </li>
-                  <li onClick={() => (location.href = `/user/${userId}/edit`)}>
+                  <li
+                    onClick={() =>
+                      (location.href = `/user/${user.userId}/edit`)
+                    }
+                  >
                     アカウント設定
                   </li>
                   <li onClick={onLogout}>ログアウト</li>
