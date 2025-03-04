@@ -5,7 +5,12 @@ export function middleware(req: NextRequest) {
 
   // トークンがない場合はトップページへリダイレクト
   if (!token) {
-    return NextResponse.redirect(new URL("/", req.url));
+    const response = NextResponse.redirect(new URL("/", req.url));
+    response.cookies.set(
+      "toast",
+      JSON.stringify({ key: "error", message: "ログインしてください" })
+    );
+    return response;
   }
 
   return NextResponse.next(); // 認証OKならそのまま処理を続行
@@ -13,5 +18,5 @@ export function middleware(req: NextRequest) {
 
 // ミドルウェアを適用するルートの設定
 export const config = {
-  matcher: ["/article/new", "/article/:path*/edit"], // 認証が必要なページ
+  matcher: ["/article/new", "/article/:path*/edit", "/user/:path*/edit"], // 認証が必要なページ
 };

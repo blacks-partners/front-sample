@@ -14,5 +14,15 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
     headers,
   });
 
+  if (response.status === 401) {
+    Cookies.remove("token");
+    const toast = {
+      key: "error",
+      message: "セッションが切れました。再度ログインしてください。",
+    };
+    Cookies.set("toast", JSON.stringify(toast));
+    location.href = "/login";
+  }
+
   return response;
 }

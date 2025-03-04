@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "@/styles/Login.module.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import ToastHandler from "@/components/elements/Toast/ToastHandler";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -72,6 +73,7 @@ export default function Login() {
 
   return (
     <main className={styles.container}>
+      <ToastHandler />
       <form action="" onSubmit={onSubmit} method="POST">
         <div className={styles.loginContainer}>
           <div className={styles.loginHeader}>

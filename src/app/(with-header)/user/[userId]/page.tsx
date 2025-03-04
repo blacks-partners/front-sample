@@ -4,6 +4,7 @@ import { article, user } from "@/types/types";
 import UserArticle from "@/components/layouts/Article/UserArticle";
 import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import ToastHandler from "@/components/elements/Toast/ToastHandler";
+import { notFound } from "next/navigation";
 
 const Mypage = async ({ params }: { params: { userId: string } }) => {
   const { userId } = await params;
@@ -14,6 +15,10 @@ const Mypage = async ({ params }: { params: { userId: string } }) => {
   );
   const userInfo: user | null =
     userRes.status === 200 ? await userRes.json() : null;
+
+  if (!userInfo) {
+    notFound();
+  }
 
   // 記事データの取得（SSR）
   const articleRes = await fetchWithAuth(
