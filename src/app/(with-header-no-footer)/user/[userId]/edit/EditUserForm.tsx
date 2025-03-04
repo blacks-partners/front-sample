@@ -20,6 +20,18 @@ export const EditUserForm = ({ user }: { user: user }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // 現在時刻からファイル名用の文字列を生成
+  const generateTimeStamp = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    return `${year}${month}${day}${hours}${minutes}${seconds}`;
+  };
+
   // 画像変更（プレビュー部分）
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -34,83 +46,90 @@ export const EditUserForm = ({ user }: { user: user }) => {
     fileInputRef.current?.click();
   };
 
-  // 画像アップロード処理
-  const uploadImage = async (fileName: string) => {
-    if (!selectedFile) return null;
-
-    const res = await fetchWithAuth(
-      `${process.env.NEXT_PUBLIC_URL}/s3/put-url?fileName=${fileName}&contentType=${selectedFile.type}`
-    );
-
-    if (res.status !== 200) {
-      toast.error("ファイルアップロードに失敗しました");
-      return false;
-    }
-
-    const data = await res.json();
-    const { url } = data;
-
-    const uploadRes = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": selectedFile.type,
-      },
-      body: selectedFile,
-    });
-
-    if (uploadRes.ok) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   // ユーザー情報更新
   const handleSave = async () => {
-    if (name === "" || name.length <= 0) {
-      toast.error("名前を入力してください");
-    } else if (name.length > 50) {
-      toast.error("名前は50文字以内で入力してください");
-    } else if (introduction.length > 150) {
-      toast.error("自己紹介は150文字以内で入力してください");
-    } else {
-      let fileName = null;
+    try {
+      if (name === "" || name.length <= 0) {
+        toast.error("名前を入力してください");
+        return;
+      } else if (name.length > 50) {
+        toast.error("名前は50文字以内で入力してください");
+        return;
+      } else if (introduction.length > 150) {
+        toast.error("自己紹介は150文字以内で入力してください");
+        return;
+      }
 
-      // ファイルアップロード
+      let uploadedFileName = null;
+
+      // 画像がある場合、アップロード処理を実行
       if (selectedFile) {
-        const uploadRes = uploadImage(userId.toString());
+        try {
+          const timestamp = generateTimeStamp();
+          const fileName = `${userId}-${timestamp}`;
 
-        if (!uploadRes) {
-          toast.error("ファイルアップロードに失敗しました");
+          // 1. 署名付きURLの取得
+          const presignedUrlRes = await fetchWithAuth(
+            `${process.env.NEXT_PUBLIC_URL}/s3/put-url?userId=${userId}&contentType=${selectedFile.type}&timestamp=${timestamp}`
+          );
+
+          if (!presignedUrlRes.ok) {
+            throw new Error("署名付きURLの取得に失敗しました");
+          }
+
+          const { url } = await presignedUrlRes.json();
+
+          // 2. S3への画像アップロード
+          const uploadRes = await fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": selectedFile.type,
+              "Cache-Control": "no-cache, no-store, must-revalidate",
+              Pragma: "no-cache",
+              Expires: "0",
+            },
+            body: selectedFile,
+          });
+
+          if (!uploadRes.ok) {
+            throw new Error("画像のアップロードに失敗しました");
+          }
+
+          uploadedFileName = fileName;
+        } catch (e) {
+          console.log(e);
+          toast.error("画像のアップロードに失敗しました");
           return;
-        } else {
-          fileName = userId;
         }
       }
 
-      // ユーザー情報更新
+      // 3. ユーザー情報の更新
       const editRes = await fetchWithAuth(
-        `${process.env.NEXT_PUBLIC_URL}/users/${user.userId}`,
+        `${process.env.NEXT_PUBLIC_URL}/users/${userId}`,
         {
           method: "PUT",
           body: JSON.stringify({
             name,
             email,
             introduction,
-            fileName,
+            fileName: uploadedFileName,
           }),
         }
       );
 
       if (editRes.status === 400) {
         toast.error("更新に失敗しました");
+        return;
       }
 
       if (editRes.status === 204) {
         const toast = { key: "success", message: "ユーザー情報を更新しました" };
         Cookies.set("toast", JSON.stringify(toast));
-        location.href = `/user/${user.userId}`;
+        location.href = `/user/${userId}`;
       }
+    } catch (e) {
+      console.log(e);
+      toast.error("更新処理中にエラーが発生しました");
     }
   };
 
@@ -155,7 +174,7 @@ export const EditUserForm = ({ user }: { user: user }) => {
             </label>
             <textarea
               id="bio"
-              value={introduction}
+              value={introduction || ""}
               onChange={(e) => setIntroduction(e.target.value)}
               className={styles.textarea}
             />

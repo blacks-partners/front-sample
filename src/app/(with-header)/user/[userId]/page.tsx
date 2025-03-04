@@ -50,13 +50,19 @@ const Mypage = async ({ params }: { params: { userId: string } }) => {
           </div>
         </div>
       </div>
-      {articles.map((article: article) => {
-        return (
-          <div className={styles.article} key={article.articleId}>
-            <UserArticle article={article} />
-          </div>
-        );
-      })}
+      {articles.length > 0 ? (
+        articles.map((article: article) => {
+          return (
+            <div className={styles.article} key={article.articleId}>
+              <UserArticle article={article} />
+            </div>
+          );
+        })
+      ) : (
+        <div className={styles.noArticle}>
+          <p>投稿された記事はありません</p>
+        </div>
+      )}
     </div>
   );
 };

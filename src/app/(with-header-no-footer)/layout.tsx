@@ -1,7 +1,6 @@
 import "../globals.css";
 import "github-markdown-css/github-markdown.css";
 import Header from "@/components/layouts/Header/Header";
-import { Footer } from "@/components/layouts/Footer/Footer";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 import { tokenPayload } from "@/types/types";
@@ -32,7 +31,6 @@ export default async function RootLayout({
     >
       <Header token={token} user={user} />
       <main style={{ flex: "1" }}>{children}</main>
-      <Footer />
     </div>
   );
 }

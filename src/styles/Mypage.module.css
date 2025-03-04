@@ -47,3 +47,10 @@
   max-height: calc(1.5em * 7);
   overflow: hidden;
 }
+
+.noArticle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+}
