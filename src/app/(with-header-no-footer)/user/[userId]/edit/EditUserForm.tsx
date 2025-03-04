@@ -82,6 +82,7 @@ export const EditUserForm = ({ user }: { user: user }) => {
           // 2. S3への画像アップロード
           const uploadRes = await fetch(url, {
             method: "PUT",
+            credentials: "include",
             headers: {
               "Content-Type": selectedFile.type,
               "Cache-Control": "no-cache, no-store, must-revalidate",

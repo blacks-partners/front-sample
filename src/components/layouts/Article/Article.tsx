@@ -15,7 +15,7 @@ const Article = ({ article }: Props) => {
 
   const handleClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest("a") === null) {
-      location.href = `/article/${articleId}`;
+      location.href = `/article/${articleId.toString()}`;
     }
   };
 

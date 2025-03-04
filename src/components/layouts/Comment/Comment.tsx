@@ -24,8 +24,8 @@ const Comment = ({
   const [menuOpenIndex, setMenuOpenIndex] = useState<number | null>(null);
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
 
-  const menuRefs = useRef<(HTMLUListElement | null)[]>([]);
-  const iconRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const menuRefs = useRef<{ [key: number]: HTMLUListElement | null }>({});
+  const iconRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -89,7 +89,7 @@ const Comment = ({
         if (res.status === 201) {
           const message = "コメントが完了しました";
           Cookies.set("toast", message);
-          location.href = `/article/${articleId}`;
+          location.href = `/article/${articleId.toString()}`;
         }
       }
     }
@@ -119,7 +119,7 @@ const Comment = ({
     if (res.status === 204) {
       const message = "コメントを削除しました";
       Cookies.set("toast", message);
-      location.href = `/article/${articleId}`;
+      location.href = `/article/${articleId.toString()}`;
       setIsDeletePopupVisible(false);
     }
   };
@@ -129,8 +129,8 @@ const Comment = ({
       <h2 className={styles.subtitle}>コメント</h2>
       {comments.length > 0 && (
         <ul className={styles.commentsList}>
-          {comments.map((comment, index) => (
-            <div key={index}>
+          {comments.map((comment) => (
+            <div key={comment.commentId}>
               {/* 削除確認ポップアップ */}
               {isDeletePopupVisible && ( // ポップアップの表示条件
                 <div className={styles.deletePopup}>
@@ -183,11 +183,13 @@ const Comment = ({
                         onClick={(e) => {
                           e.stopPropagation();
                           setMenuOpenIndex(
-                            menuOpenIndex === index ? null : index
+                            menuOpenIndex === comment.commentId
+                              ? null
+                              : comment.commentId
                           );
                         }}
                         ref={(el) => {
-                          iconRefs.current[index] = el;
+                          iconRefs.current[comment.commentId] = el;
                         }}
                       >
                         <IconContext.Provider
@@ -196,10 +198,10 @@ const Comment = ({
                           <HiDotsHorizontal />
                         </IconContext.Provider>
                       </button>
-                      {menuOpenIndex === index && (
+                      {menuOpenIndex === comment.commentId && (
                         <ul
                           ref={(el) => {
-                            menuRefs.current[index] = el;
+                            menuRefs.current[comment.commentId] = el;
                           }}
                           className={styles.dropdownMenu}
                         >

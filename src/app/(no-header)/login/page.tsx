@@ -5,6 +5,7 @@ import styles from "@/styles/Login.module.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import ToastHandler from "@/components/elements/Toast/ToastHandler";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,9 +18,8 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/login`, {
+      const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_URL}/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
           password,

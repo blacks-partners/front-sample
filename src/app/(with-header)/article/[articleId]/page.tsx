@@ -37,7 +37,7 @@ const ArticleDetail = () => {
       setUserId(decodeToken.userId);
     }
     const fetchData = async () => {
-      const res = await fetch(
+      const res = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_URL}/articles/${articleId}`
       );
       const data: article = await res.json();

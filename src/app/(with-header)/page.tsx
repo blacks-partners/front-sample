@@ -7,15 +7,18 @@ import { article } from "@/types/types";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
 
 export default function Home() {
   const [articles, setArticles] = useState<article[]>([]);
 
   const fetchData = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/articles`);
+    const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_URL}/articles`);
     const data = await res.json();
 
-    setArticles(data);
+    if (data) {
+      setArticles(data);
+    }
   };
 
   const showCookieToast = () => {

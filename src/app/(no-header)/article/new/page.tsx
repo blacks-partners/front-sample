@@ -62,7 +62,7 @@ const NewArticle = () => {
         }
 
         if (res.status === 201) {
-          const data: { articleId: number } = await res.json();
+          const data: { articleId: string } = await res.json();
           Cookies.set("toast", "投稿が完了しました");
           location.href = `/article/${data.articleId}`;
         }
