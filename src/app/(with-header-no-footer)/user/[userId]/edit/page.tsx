@@ -1,7 +1,11 @@
 import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import { EditUserForm } from "./EditUserForm";
 
-const EditUser = async ({ params }: { params: { userId: string } }) => {
+const EditUser = async ({
+  params,
+}: {
+  params: Promise<{ userId: string }>;
+}) => {
   const { userId } = await params;
 
   const res = await fetchWithAuth(

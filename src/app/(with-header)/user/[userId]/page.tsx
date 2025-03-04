@@ -6,7 +6,7 @@ import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import ToastHandler from "@/components/elements/Toast/ToastHandler";
 import { notFound } from "next/navigation";
 
-const Mypage = async ({ params }: { params: { userId: string } }) => {
+const Mypage = async ({ params }: { params: Promise<{ userId: string }> }) => {
   const { userId } = await params;
 
   // ユーザー情報の取得（SSR）
